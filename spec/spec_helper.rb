@@ -34,4 +34,6 @@ RSpec.configure do |config|
 
   config.before { WebMock.disable_net_connect! }
   config.include(Helpers)
+
+  config.raise_errors_for_deprecations!
 end

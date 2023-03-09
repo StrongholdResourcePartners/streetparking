@@ -59,18 +59,18 @@ describe RedisCache do
 
     context "with a simple ruby object" do
       let(:value) { 666 }
-      it { should change { cache.read(key) }.to(value) }
+      specify { expect { subject.call }.to change { cache.read(key) }.to(value) }
     end
 
     context "with a hash" do
       let(:value) { { "a" => 1, "b" => 2 } }
-      it { should change { cache.read(key) }.to(value) }
+      specify { expect { subject.call }.to change { cache.read(key) }.to(value) }
     end
 
     context "with nil" do
       let(:value) { nil }
       before { redis.set(key, "anything".to_json) }
-      it { should change { cache.read(key) }.to be_nil }
+      specify { expect { subject.call }.to change { cache.read(key) }.to be_nil }
     end
   end
 end
