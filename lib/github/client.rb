@@ -9,8 +9,7 @@ module GitHub
 
     CACHE_TTL = 10.seconds
 
-    def initialize(username: nil, token: nil, cache: nil, redis_pool: nil)
-      @username = username || ENV.fetch("GITHUB_USERNAME")
+    def initialize(token: nil, cache: nil, redis_pool: nil)
       @token = token || ENV.fetch("GITHUB_TOKEN")
       @cache = cache || RedisCache.new(redis_pool: redis_pool)
     end
@@ -24,7 +23,7 @@ module GitHub
 
     private
 
-    attr_reader :username, :token, :cache
+    attr_reader :token, :cache
 
     def fresh?(cached_data)
       if (cache_until = cached_data&.fetch("until", nil))
@@ -51,7 +50,7 @@ module GitHub
     def request(method, uri, headers: {})
       response = HTTP
         .headers({ accept: "application/json" }.merge(headers))
-        .basic_auth(user: username, pass: token)
+        .basic_auth(user: nil, pass: token)
         .request(method, uri)
 
       check_for_errors!(response, method, uri)

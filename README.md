@@ -4,9 +4,8 @@
 
 ### Required
 - GitHub
-  - `GITHUB_USERNAME`
   - `GITHUB_TOKEN`
-    A personal access token for the given GitHub user.  This must have the `repo` permission.
+    A personal access token for the given GitHub user.  This must have read-only access to Actions.
 
 - Redis
   - `REDIS_URL`

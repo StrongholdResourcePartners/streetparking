@@ -3,8 +3,7 @@ require "active_support/json"
 require_relative "../../lib/github/client"
 
 RSpec.describe GitHub::Client do
-  let(:client) { described_class.new(username: username, token: token, cache: cache) }
-  let(:username) { "jeff" }
+  let(:client) { described_class.new(token: token, cache: cache) }
   let(:token) { "meow" }
   let(:cache) { double(:cache, read: cached, write: nil) }
   let(:cached) { nil }
@@ -18,18 +17,11 @@ RSpec.describe GitHub::Client do
     let(:headers) do
       {
         Accept: "application/json",
-        Authorization: "Basic #{Base64.encode64("#{username}:#{token}").strip}"
+        Authorization: "Basic #{Base64.encode64(":#{token}").strip}"
       }
     end
     let(:response_data) { template_github_job_status }
     before { stub_request(:get, uri).to_return(status: 200, body: response_data.to_json) }
-
-    context "with no username" do
-      let(:username) { nil }
-      it "raises an error" do
-        expect { subject }.to raise_error(KeyError)
-      end
-    end
 
     context "with no token" do
       let(:token) { nil }
