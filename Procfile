@@ -1,1 +1,1 @@
-web: bin/puma
+web: bin/puma -p ${PORT:-5000}
