@@ -40,7 +40,7 @@ This reduces the amount of http calls that are needed to poll for changes.
 
 ```
 bundle install
-bundle exec rackup -p 4567 config.ru
+bin/puma
 open http://localhost:4567
 ```
 

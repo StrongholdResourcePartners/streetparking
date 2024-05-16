@@ -1,1 +1,1 @@
-web: bin/rackup config.ru -p ${PORT:-5000}
+web: bin/puma
