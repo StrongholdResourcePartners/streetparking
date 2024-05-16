@@ -14,7 +14,7 @@ module GitHub
       @cache = cache || RedisCache.new(redis_pool: redis_pool)
     end
 
-    def runs(group: , repo: , workflow: )
+    def runs(group:, repo:, workflow:)
       uri = URI("https://api.github.com/repos/#{group}/#{repo}/actions/workflows/#{workflow}/runs")
 
       cached_data = cache.read(uri.to_s)
@@ -34,7 +34,7 @@ module GitHub
     def fetch_runs(uri, cached_data)
       runs = cached_data&.fetch("runs", nil)
       etag = cached_data&.fetch("etag", nil)
-      response = request(:get, uri, headers: { "If-None-Match": etag })
+      response = request(:get, uri, headers: {"If-None-Match": etag})
 
       if status_changed?(response)
         runs = JSON.parse(response)
@@ -42,14 +42,14 @@ module GitHub
       end
 
       cache_until = (Time.current + CACHE_TTL).iso8601
-      cache.write(uri.to_s, { etag: etag, runs: runs, until: cache_until })
+      cache.write(uri.to_s, {etag: etag, runs: runs, until: cache_until})
 
       runs
     end
 
     def request(method, uri, headers: {})
       response = HTTP
-        .headers({ accept: "application/json" }.merge(headers))
+        .headers({accept: "application/json"}.merge(headers))
         .basic_auth(user: nil, pass: token)
         .request(method, uri)
 

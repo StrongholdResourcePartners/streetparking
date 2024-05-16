@@ -2,7 +2,7 @@ require "json"
 require "redis"
 
 class RedisCache
-  def initialize(redis_pool: )
+  def initialize(redis_pool:)
     @redis_pool = redis_pool
     # @redis = redis || Redis.new(url: ENV["REDIS_URL"])
   end

@@ -33,7 +33,7 @@ describe CCTray do
             "conclusion" => "success",
             "created_at" => "2020-03-09T21:03:53Z",
             "html_url" => "https://github.com/build-canaries/nevergreen/actions/runs/52530432",
-            "repository" => { "full_name" => "a_group/a_repo" }
+            "repository" => {"full_name" => "a_group/a_repo"}
           }]
         }
       end
@@ -50,9 +50,9 @@ describe CCTray do
       }
     end
 
-    { queued: "Building", in_progress: "Building", completed: "Sleeping" }.each do |github_status, cctray_status|
+    {queued: "Building", in_progress: "Building", completed: "Sleeping"}.each do |github_status, cctray_status|
       context "with GitHub status #{github_status}" do
-        let(:github_runs) { template_github_job_status({ "status" => github_status.to_s }) }
+        let(:github_runs) { template_github_job_status({"status" => github_status.to_s}) }
         its(:first) { should include(activity: cctray_status) }
       end
     end
@@ -66,13 +66,13 @@ describe CCTray do
       action_required: "Unknown"
     }.each do |github_conclusion, cctray_status|
       context "with GitHub conclusion #{github_conclusion}" do
-        let(:github_runs) { template_github_job_status({ "conclusion" => github_conclusion.to_s }) }
+        let(:github_runs) { template_github_job_status({"conclusion" => github_conclusion.to_s}) }
         its(:first) { should include(lastBuildStatus: cctray_status) }
       end
     end
 
     context "with multiple runs" do
-      let(:github_runs) { { "workflow_runs" => [older_run, newer_run] } }
+      let(:github_runs) { {"workflow_runs" => [older_run, newer_run]} }
       let(:older_run) do
         template_github_job({
           "conclusion" => "failure",
@@ -90,14 +90,14 @@ describe CCTray do
       its(:first) { should include(lastBuildStatus: "Success") }
 
       context "when a branch is given" do
-        let(:kwargs) { { branch: "master" } }
+        let(:kwargs) { {branch: "master"} }
         its(:first) { should include(lastBuildStatus: "Failure") }
       end
     end
 
     context "with a run in progress" do
-      let(:github_runs) { { "workflow_runs" => workflow_runs } }
-      let(:workflow_runs) { [template_github_job({ "status" => "in_progress", "conclusion" => nil })] }
+      let(:github_runs) { {"workflow_runs" => workflow_runs} }
+      let(:workflow_runs) { [template_github_job({"status" => "in_progress", "conclusion" => nil})] }
 
       context "when the previous run succeeded" do
         before do
@@ -126,7 +126,7 @@ describe CCTray do
     end
 
     context "with XML format" do
-      let(:kwargs) { { xml: true } }
+      let(:kwargs) { {xml: true} }
       let(:github_runs) { template_github_job_status }
       it { should match_fuzzy(<<~XML) }
         <Projects>

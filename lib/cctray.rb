@@ -34,7 +34,7 @@ class CCTray
     @github_client = github_client || GitHub::Client.new(redis_pool: redis_pool)
   end
 
-  def status(group: , repo: , workflow: , branch: nil, xml: false)
+  def status(group:, repo:, workflow:, branch: nil, xml: false)
     github_runs = github_client.runs(group: group, repo: repo, workflow: workflow)
     runs = github_runs.fetch("workflow_runs", [])
     runs = runs.select { |run| run["head_branch"] == branch } if branch
@@ -49,7 +49,7 @@ class CCTray
   attr_reader :github_client
 
   # rubocop:disable Metrics/MethodLength
-  def generate_cctray_status_for(run, all_runs: )
+  def generate_cctray_status_for(run, all_runs:)
     name = run["repository"]["full_name"]
     created_at = run["created_at"]
     conclusion = run["conclusion"] || previous_conclusion(name, created_at, all_runs)
@@ -76,6 +76,6 @@ class CCTray
   end
 
   def render_xml(status)
-    XmlSimple.xml_out(status, { rootname: "Projects", anonymoustag: "Project" })
+    XmlSimple.xml_out(status, {rootname: "Projects", anonymoustag: "Project"})
   end
 end

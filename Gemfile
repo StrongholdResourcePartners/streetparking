@@ -13,7 +13,7 @@ gem "srp-api", github: "srpatx/srp-api", require: false
 gem "xml-simple"
 
 group :development do
-  gem "srp-style", require: false, github: "srpatx/srp-style"
+  gem "standard"
 end
 
 group :test do

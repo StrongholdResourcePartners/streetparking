@@ -44,7 +44,7 @@ describe RedisCache do
     end
 
     context "with a key that refers to a hash value" do
-      let(:value) { { "a" => 1, "b" => 2 } }
+      let(:value) { {"a" => 1, "b" => 2} }
       before { redis.set(key, value.to_json) }
       it { should == value }
     end
@@ -63,7 +63,7 @@ describe RedisCache do
     end
 
     context "with a hash" do
-      let(:value) { { "a" => 1, "b" => 2 } }
+      let(:value) { {"a" => 1, "b" => 2} }
       specify { expect { subject.call }.to change { cache.read(key) }.to(value) }
     end
 

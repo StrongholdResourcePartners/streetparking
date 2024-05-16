@@ -1,3 +1,4 @@
+require "active_support"
 require "active_support/core_ext/module/delegation"
 require "active_support/json"
 require_relative "../../lib/github/client"
@@ -36,9 +37,9 @@ RSpec.describe GitHub::Client do
     end
 
     context "when the requested runs are in the cache" do
-      let(:cached) { { etag: etag, runs: cached_data, until: cache_until }.as_json }
+      let(:cached) { {etag: etag, runs: cached_data, until: cache_until}.as_json }
       let(:etag) { "badf00d" }
-      let(:cached_data) { template_github_job_status({ "created_at" => "2020-03-09T21:03:53Z" }) }
+      let(:cached_data) { template_github_job_status({"created_at" => "2020-03-09T21:03:53Z"}) }
 
       context "and the cache is fresh" do
         let(:cache_until) { 5.seconds.from_now.iso8601 }
@@ -74,7 +75,7 @@ RSpec.describe GitHub::Client do
             stub_request(:get, uri).to_return(
               status: 200,
               body: response_data.to_json,
-              headers: { "ETag" => new_etag }
+              headers: {"ETag" => new_etag}
             )
           end
           it { should have_requested(:get, uri).with(headers: headers) }
@@ -99,7 +100,7 @@ RSpec.describe GitHub::Client do
         stub_request(:get, uri).to_return(
           status: 200,
           body: response_data.to_json,
-          headers: { "ETag" => new_etag }
+          headers: {"ETag" => new_etag}
         )
       end
       it { should have_requested(:get, uri).with(headers: headers) }

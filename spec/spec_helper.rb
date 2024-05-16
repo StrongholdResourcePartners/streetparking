@@ -16,7 +16,7 @@ module Helpers
       "conclusion" => "success",
       "created_at" => "2020-03-09T21:03:53Z",
       "html_url" => "https://github.com/build-canaries/nevergreen/actions/runs/52530432",
-      "repository" => { "full_name" => "a_group/a_repo" }
+      "repository" => {"full_name" => "a_group/a_repo"}
     }.merge(overrides)
   end
 end
